@@ -7,6 +7,7 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Ionicons } from "@expo/vector-icons";
 import * as SecureStore from "expo-secure-store";
 import { AuthContext } from "./src/Context/AuthContext";
+import { useColorScheme } from "nativewind";
 
 import HomeScreen from "./src/screens/HomeScreen";
 import DetailScreen from "./src/screens/DetailScreen";
@@ -32,6 +33,9 @@ const Stack = createNativeStackNavigator<RootStackParamList>();
 const Tab = createBottomTabNavigator<RootTabParamList>();
 
 function BottomTabs() {
+  const { colorScheme } = useColorScheme();
+
+  const isDark = colorScheme === "dark";
   return (
     <Tab.Navigator
       screenOptions={({ route }) => ({
@@ -51,9 +55,12 @@ function BottomTabs() {
           }
           return <Ionicons name={iconName} size={size} color={color} />;
         },
-        tabBarActiveTintColor: "#9f4200",
-        tabBarInactiveTintColor: "gray",
-        tabBarStyle: { backgroundColor: "#f0e9de" },
+        tabBarActiveTintColor: isDark ? "#ff6a00" : "#9f4200",
+        tabBarInactiveTintColor: isDark ? "#6b7280" : "gray",
+        tabBarStyle: {
+          backgroundColor: isDark ? "#0F172A" : "#f0e9de", // Gelap saat dark mode
+          borderTopColor: isDark ? "#27272a" : "#e5e7eb", // (Opsional) Sesuaikan garis batasnya juga
+        },
       })}
     >
       <Tab.Screen
@@ -69,7 +76,7 @@ function BottomTabs() {
       <Tab.Screen
         name="ActivityTab"
         component={ActivityScreen}
-        options={{ title: "Activity" }}
+        options={{ title: "Activity", headerShown: false }}
       />
       <Tab.Screen
         name="ProfileTab"

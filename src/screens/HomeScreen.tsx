@@ -10,13 +10,11 @@ import {
 import { SafeAreaView } from "react-native-safe-area-context";
 import { getCurrentUser } from "../Services/AuthService";
 import { User } from "../Type/User";
-import { Ionicons } from "@expo/vector-icons";
 import HomeCard from "../Component/HomeCard";
 import { countData } from "../Type/CountData";
 import { getCountData, getFollowerAnalytic } from "../Services/AnalyticService";
 import { User as Usericon } from "lucide-react-native";
 import { HomeSkeleton } from "../Component/SkeletonLoading";
-import { LineChart } from "react-native-chart-kit";
 import FollowerChart from "../Component/FollowerChart";
 
 interface FollowerGrowth {
@@ -60,10 +58,10 @@ export default function HomeScreen() {
 
   const onRefresh = async () => {
     setRefresh(true);
+    //setLoading(true);
 
     try {
       await fetchCount();
-      await fetchUser();
       await fetchFollower();
     } catch (error) {
       console.log(error);
@@ -106,6 +104,15 @@ export default function HomeScreen() {
             )}
           </View>
         </View>
+        <View className="mx-3 mb-4 px-5 py-4 bg-[#fff7ed] dark:bg-slate-700 rounded-2xl border border-orange-100 dark:border-slate-600">
+          <Text className="text-base font-semibold text-[#9f4200] dark:text-orange-300 mb-1">
+            Keep it up 🚀
+          </Text>
+
+          <Text className="text-sm leading-5 text-gray-600 dark:text-gray-300">
+            You're doing great! Keep posting to reach more people.
+          </Text>
+        </View>
         {/* Kotak kotak */}
         {loading ? (
           <>
@@ -146,9 +153,8 @@ export default function HomeScreen() {
             </View>
           </>
         )}
+        {analytics.length > 0 && <FollowerChart data={analytics || []} />}
       </ScrollView>
-      {analytics.length > 0 && <FollowerChart data={analytics} />}
-      {/* <FollowerChart data={analytics || []} /> */}
     </SafeAreaView>
   );
 }

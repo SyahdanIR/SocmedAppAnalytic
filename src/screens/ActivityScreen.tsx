@@ -50,6 +50,7 @@ const ActivityScreen = () => {
 
   const onRefresh = async () => {
     setRefresh(true);
+    setLoading(true);
     try {
       await fetchNotif();
     } catch (error) {

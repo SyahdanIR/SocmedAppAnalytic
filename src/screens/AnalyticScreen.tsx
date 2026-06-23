@@ -58,6 +58,7 @@ export default function AnalyticScreen() {
 
   const onRefresh = async () => {
     setRefresh(true);
+    setLoading(true);
     if (page === 1) {
       fetchThread(1);
     } else {

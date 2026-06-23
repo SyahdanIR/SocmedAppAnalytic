@@ -10,16 +10,16 @@ import { AuthContext } from "./src/Context/AuthContext";
 import { useColorScheme } from "nativewind";
 
 import HomeScreen from "./src/screens/HomeScreen";
-import DetailScreen from "./src/screens/DetailScreen";
 import AnalyticScreen from "./src/screens/AnalyticScreen";
 import LoginScreen from "./src/screens/LoginScreen";
 import ActivityScreen from "./src/screens/ActivityScreen";
 import ProfileScreen from "./src/screens/ProfileScreen";
+import SplashScreen from "./src/screens/SplashScreen";
 
 export type RootStackParamList = {
   Login: undefined;
   MainApp: undefined;
-  Detail: { id: number; name: string };
+  // Splash: undefined;
 };
 
 export type RootTabParamList = {
@@ -95,6 +95,7 @@ export default function App() {
     const checkToken = async () => {
       try {
         const token = await SecureStore.getItemAsync("token");
+        await new Promise((promise) => setTimeout(promise, 2000));
         setUserToken(token);
       } catch (error) {
         console.log("Failed to fetch token");
@@ -119,6 +120,10 @@ export default function App() {
     }),
     [],
   );
+
+  if (isLoading) {
+    return <SplashScreen />;
+  }
   return (
     <AuthContext.Provider value={authContext}>
       <NavigationContainer>
@@ -135,20 +140,6 @@ export default function App() {
                 name="MainApp"
                 component={BottomTabs}
                 options={{ headerShown: false }}
-              />
-              <Stack.Screen
-                name="Detail"
-                component={DetailScreen}
-                options={{
-                  title: "Product Information",
-                  headerStyle: {
-                    backgroundColor: "blue",
-                  },
-                  headerTintColor: "white",
-                  headerTitleStyle: {
-                    fontWeight: "bold",
-                  },
-                }}
               />
             </>
           )}

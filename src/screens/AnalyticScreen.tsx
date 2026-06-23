@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   ActivityIndicator,
   RefreshControl,
+  Image,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import {
@@ -84,9 +85,17 @@ export default function AnalyticScreen() {
       </View>
 
       {/* Content */}
-      <Text className="text-[#4A3728] dark:text-gray-300 text-base leading-6 mb-6 italic">
+      <Text className="text-[#4A3728] dark:text-gray-300 text-base leading-6 mb-2 italic">
         "{item.content}"
       </Text>
+      {item.threadImg && (
+        <Image
+          source={{
+            uri: `${process.env.EXPO_PUBLIC_API_URL}/uploads/${item.threadImg}`,
+          }}
+          className="w-32 h-32 rounded-2xl mb-6"
+        />
+      )}
 
       {/* Divider */}
       <View className="h-[1px] bg-[#f0ede9] w-full mb-4" />
@@ -159,7 +168,7 @@ export default function AnalyticScreen() {
         <FlatList
           data={threads}
           renderItem={renderThreadItem}
-          keyExtractor={(item) => item.id.toString()}
+          keyExtractor={(item, index) => index.toString()}
           contentContainerStyle={{ paddingBottom: 100 }}
           showsVerticalScrollIndicator={false}
           onEndReachedThreshold={0.5}

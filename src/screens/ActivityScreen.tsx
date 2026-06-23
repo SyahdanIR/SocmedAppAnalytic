@@ -1,5 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, TouchableOpacity, Image, FlatList } from "react-native";
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  Image,
+  FlatList,
+  RefreshControl,
+} from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import {
   User,
@@ -24,20 +31,33 @@ const ActivityScreen = () => {
   const { colorScheme } = useColorScheme();
   const isDark = colorScheme === "dark";
   const [loading, setLoading] = useState(true);
+  const [refresh, setRefresh] = useState(false);
+  const fetchNotif = async () => {
+    const response = await getNotification();
+    // console.log(response);
+    setNotip(response.data);
+  };
+
   useEffect(() => {
-    const fetchNotif = async () => {
-      try {
-        const response = await getNotification();
-        // console.log(response);
-        setNotip(response.data);
-      } catch (error) {
-        console.log(error);
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchNotif();
-  }, []);
+    try {
+      fetchNotif();
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLoading(false);
+    }
+  });
+
+  const onRefresh = async () => {
+    setRefresh(true);
+    try {
+      await fetchNotif();
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setRefresh(false);
+    }
+  };
   const renderItem = ({ item }: { item: Notif }) => (
     <View
       className={`mx-4 mb-4 bg-white dark:bg-slate-600 p-5 rounded-[32px] border border-[#e8e2d9] dark:border-gray-300 shadow-sm`}
@@ -139,9 +159,16 @@ const ActivityScreen = () => {
         <FlatList
           data={notip}
           renderItem={renderItem}
-          keyExtractor={(item) => item.id.toString()}
+          keyExtractor={(item, index) => index.toString()}
           contentContainerStyle={{ paddingBottom: 100 }}
           showsVerticalScrollIndicator={false}
+          refreshControl={
+            <RefreshControl
+              refreshing={refresh}
+              onRefresh={onRefresh}
+              colors={["orange"]}
+            />
+          }
         />
       )}
     </SafeAreaView>

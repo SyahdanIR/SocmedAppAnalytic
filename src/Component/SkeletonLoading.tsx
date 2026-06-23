@@ -65,10 +65,10 @@ export const HomeSkeleton = () => {
     <>
       <View className="flex-1 basis-0 bg-white dark:bg-slate-600 p-4 shadow-lg rounded-2xl h-32 justify-between">
         <View>
-          <View className="w-full h-4 bg-gray-200 dark:bg-slate-500 rounded-md animate-pulse mb-2" />
+          <View className="w-5 h-4 bg-gray-200 dark:bg-slate-500 rounded-md animate-pulse mb-2" />
         </View>
-        <View className="w-full h-4 bg-gray-200 dark:bg-slate-500 rounded-md animate-pulse mb-2">
-          <View className="w-full h-4 bg-gray-200 dark:bg-slate-500 rounded-md animate-pulse mb-2" />
+        <View className="h-4 bg-gray-200 dark:bg-slate-500 rounded-md animate-pulse mb-2">
+          <View className="w-5 h-4 bg-gray-200 dark:bg-slate-500 rounded-md animate-pulse mb-2" />
           <View className="w-full h-4 bg-gray-200 dark:bg-slate-500 rounded-md animate-pulse mb-2" />
         </View>
       </View>

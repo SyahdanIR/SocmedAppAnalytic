@@ -4,4 +4,5 @@ export interface thread {
   replyCount: number;
   likeCount: number;
   createdAt: string;
+  threadImg: string;
 }

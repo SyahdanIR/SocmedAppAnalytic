@@ -50,3 +50,18 @@ export const getNotification = async () => {
     throw error;
   }
 };
+
+export const getFollowerAnalytic = async () => {
+  try {
+    const token = await SecureStore.getItemAsync("token");
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    };
+    const response = await api.get("/analytic/growth", config);
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
